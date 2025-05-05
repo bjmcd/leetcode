@@ -1,0 +1,64 @@
+class Solution:
+    def numTilings(self, n):
+        MOD = 10**9 + 7
+        memo = {}
+
+        def dp(top, bottom):
+            if (top, bottom) in memo:
+                return memo[(top, bottom)]
+            if top > n or bottom > n:
+                return 0
+            if top == n and bottom == n:
+                return 1
+
+            total = 0
+            if top == bottom:
+                total += dp(top + 1, bottom + 1)  # vertical domino
+                total += dp(top + 2, bottom + 2)  # two horizontal dominoes
+                total += dp(top + 2, bottom + 1)  # tromino shape 1
+                total += dp(top + 1, bottom + 2)  # tromino shape 2
+            elif top > bottom:
+                total += dp(top, bottom + 2)
+                total += dp(top + 1, bottom + 2)
+            else:
+                total += dp(top + 2, bottom)
+                total += dp(top + 2, bottom + 1)
+
+            memo[(top, bottom)] = total % MOD
+            return memo[(top, bottom)]
+
+        return dp(0, 0)
+    
+'''
+#Solution
+class Solution:
+    def numTilings(self, n):
+        MOD = 10**9 + 7
+        memo = {}
+
+        def dp(top, bottom):
+            if (top, bottom) in memo:
+                return memo[(top, bottom)]
+            if top > n or bottom > n:
+                return 0
+            if top == n and bottom == n:
+                return 1
+
+            total = 0
+            if top == bottom:
+                total += dp(top + 1, bottom + 1)  # vertical domino
+                total += dp(top + 2, bottom + 2)  # two horizontal dominoes
+                total += dp(top + 2, bottom + 1)  # tromino shape 1
+                total += dp(top + 1, bottom + 2)  # tromino shape 2
+            elif top > bottom:
+                total += dp(top, bottom + 2)
+                total += dp(top + 1, bottom + 2)
+            else:
+                total += dp(top + 2, bottom)
+                total += dp(top + 2, bottom + 1)
+
+            memo[(top, bottom)] = total % MOD
+            return memo[(top, bottom)]
+
+        return dp(0, 0)
+'''
